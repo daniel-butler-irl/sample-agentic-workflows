@@ -84,6 +84,7 @@
 ## Completion Standards
 
 A task is not complete until:
+
 - All implementation steps are checked off
 - All completion gates pass and are checked off
 - All verification specified in gates.md passes

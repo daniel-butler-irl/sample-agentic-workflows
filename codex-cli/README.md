@@ -19,18 +19,21 @@ cp -r skills/* ~/.codex/skills/
 ## Available Skills
 
 ### On-Demand Phases
-- `investigate` - Understand code or enrich sparse issues
-- `design` - Define interfaces (signatures only, no implementation)
+
+- `wf-investigate` - Understand code or enrich sparse issues
+- `wf-design` - Define interfaces (signatures only, no implementation)
 
 ### Core Workflow
-- `01-issue-plan` - Define 1-3 issues with success criteria
-- `02-task-plan` - Plan tasks based on gates and complexity
-- `03-implement` - Execute single task with verification
-- `04-cleanup` - Three-phase audit before PR
+
+- `wf-01-issue-plan` - Define 1-3 issues with success criteria
+- `wf-02-task-plan` - Plan tasks based on gates and complexity
+- `wf-03-implement` - Execute single task with verification
+- `wf-04-cleanup` - Three-phase audit before PR
 
 ### Meta Phases
-- `summarise` - Checkpoint session for handoff
-- `workflow` - Explain methodology and answer questions
+
+- `wf-summarise` - Checkpoint session for handoff
+- `wf-workflow` - Explain methodology and answer questions
 
 ## Usage
 

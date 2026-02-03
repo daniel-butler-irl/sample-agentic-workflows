@@ -37,6 +37,7 @@ This workflow is deliberately designed around two constraints that other methodo
 Spec-heavy approaches (walls of markdown, detailed upfront plans, comprehensive documentation) create review fatigue. Engineers skim, approve, and move on -- defeating the purpose of human oversight.
 
 **How this workflow addresses it:**
+
 - **Small issues (1-3 per batch)** -- Each issue definition fits in working memory
 - **One task = one commit** -- Diffs are reviewable in minutes, not hours
 - **Gate-based verification** -- Clear pass/fail criteria, not subjective review
@@ -54,6 +55,7 @@ Research shows a U-shaped attention curve: models attend well to the beginning a
 **The 50% rule of thumb:** When you are past 50% of the context window, you are in the degradation zone. This is not a hard cutoff -- finish what you are doing. But wrap up the current task and start a fresh session rather than continuing.
 
 **How this workflow addresses it:**
+
 - **Fresh session per task** -- Context is bounded by design, not discipline
 - **Small task files** -- Minimal context injection per session
 - **Implementation Notes** -- Targeted memory, not full conversation history
@@ -87,10 +89,13 @@ Understanding these three levels is critical:
 ## Phase 0: Project Foundation
 
 ### What You Do
+
 Create an `AGENTS.md` file (or equivalent like `CLAUDE.md`, `.cursorrules`) containing your non-negotiable project requirements. This file is injected into every AI session automatically.
 
 ### Without Explicit Constraints
+
 AI assistants optimize for appearing helpful, which sometimes means taking shortcuts. Without explicit constraints, they will:
+
 - Skip tests to "finish faster"
 - Use deprecated patterns from training data
 - Make inconsistent architectural decisions across sessions
@@ -101,6 +106,7 @@ AI assistants optimize for appearing helpful, which sometimes means taking short
 The AGENTS.md file acts as persistent memory across the amnesia boundary.
 
 ### Guidelines
+
 - Keep it under ~200 lines -- longer files get ignored as context fills up
 - Focus on non-negotiables only
 - Be specific and actionable, not aspirational
@@ -206,13 +212,14 @@ A task is not complete until:
 
 Define what you want to build in small, coherent chunks.
 
-**Command:** `/issue-plan`
+**Command:** `/wf-01-issue-plan`
 
 **Output:** 1-3 issue definitions (GitHub issues or markdown files in `.agents/issues/`)
 
 **Key principle:** Plan 1-3 issues at a time, re-evaluate after completing each batch. Later issues in larger batches will be wrong.
 
 **Issue template:**
+
 ```markdown
 ## Issue: [Title]
 
@@ -241,9 +248,10 @@ What is NOT included in this issue?
 
 Before planning tasks, explicitly define how you'll verify each success criterion.
 
-**Command:** `/define-gates <issue-identifier>`
+**Command:** `/wf-define-gates <issue-identifier>`
 
 **What it does:**
+
 1. Reads the issue (GitHub or markdown)
 2. Analyzes success criteria
 3. Proposes verification strategy for each criterion
@@ -254,6 +262,7 @@ Before planning tasks, explicitly define how you'll verify each success criterio
 **Output:** `.agents/tasks/<issue>/gates.md`
 
 **Why this is mandatory:**
+
 - Forces clarity about what "done" means before implementation
 - Catches scope bloat early
 - Determines if tasks can be planned upfront or need iterative approach
@@ -263,22 +272,24 @@ Before planning tasks, explicitly define how you'll verify each success criterio
 
 1. **Test-based** -- New or extended test cases
    - Example: "Unit tests in user.test.ts verify email validation"
-   
+
 2. **Command-based** -- Run a command, verify output
    - Example: "`terraform plan` shows expected resources, no surprises"
-   
+
 3. **Manual review** -- When automation isn't appropriate
    - Example: "Security architecture review checklist: [specific items]"
 
 **Complexity Assessment:**
 
 **SIMPLE** -- Plan all tasks upfront:
+
 - Single component or closely related components
 - Established patterns exist in codebase
 - Clear implementation path
 - Low uncertainty about approach
 
 **COMPLEX** -- Plan tasks iteratively:
+
 - Multiple independent components
 - New patterns needed
 - High uncertainty
@@ -287,6 +298,7 @@ Before planning tasks, explicitly define how you'll verify each success criterio
 **Splitting Detection:**
 
 The command identifies when an issue contains multiple independent features and suggests splitting:
+
 - Independent gate groups that don't depend on each other
 - Natural domain boundaries (database vs API vs UI)
 - Opportunities for parallel development
@@ -382,9 +394,10 @@ Human decision required: Proceed with current scope or split?
 
 Plan implementation tasks based on the gates.
 
-**Command:** `/task-plan <issue-identifier>`
+**Command:** `/wf-02-task-plan <issue-identifier>`
 
 **What it does:**
+
 1. Reads `gates.md` for the issue
 2. Checks existing task files
 3. Based on complexity assessment:
@@ -393,6 +406,7 @@ Plan implementation tasks based on the gates.
 4. Creates task file(s) in `.agents/tasks/<issue>/`
 
 **Each task:**
+
 - Completes one or more gates
 - Fits in a single commit (50-200 lines, 1-5 files)
 - Has clear completion criteria
@@ -434,7 +448,7 @@ Completes: Gate N of #[issue]
 **SIMPLE issue example (all tasks planned):**
 
 ```bash
-$ /task-plan issue-47-user-email
+$ /wf-02-task-planissue-47-user-email
 
 Reading gates.md...
 Complexity: SIMPLE
@@ -446,13 +460,13 @@ Created:
   - task-1.md (completes Gates 1, 2)
   - task-2.md (completes Gate 3)
 
-Next: /implement issue-47 task-1
+Next: /wf-03-implement issue-47 task-1
 ```
 
 **COMPLEX issue example (iterative planning):**
 
 ```bash
-$ /task-plan issue-52-auth-system
+$ /wf-02-task-planissue-52-auth-system
 
 Reading gates.md...
 Complexity: COMPLEX
@@ -463,7 +477,7 @@ Planning first task based on gate analysis...
 Created:
   - task-1.md (completes Gate 1: Database schema)
 
-Next: /implement issue-52 task-1
+Next: /wf-03-implement issue-52 task-1
 
 After task-1 completes, return here to plan task-2 based on learnings.
 ```
@@ -474,9 +488,10 @@ After task-1 completes, return here to plan task-2 based on learnings.
 
 Implement a specific task.
 
-**Command:** `/implement <issue-identifier> <task-identifier>`
+**Command:** `/wf-03-implement <issue-identifier> <task-identifier>`
 
 **Process:**
+
 1. Read task file
 2. Follow implementation steps
 3. Check off steps as completed
@@ -485,6 +500,7 @@ Implement a specific task.
 6. Stop (human reviews and commits)
 
 **The agent:**
+
 - Makes code changes
 - Checks off implementation steps
 - Runs verification commands
@@ -492,6 +508,7 @@ Implement a specific task.
 - Does NOT commit
 
 **The human:**
+
 - Reviews the diff
 - Verifies gates pass
 - Commits the changes
@@ -499,7 +516,7 @@ Implement a specific task.
 **Example:**
 
 ```bash
-$ /implement issue-47 task-1
+$ /wf-03-implementissue-47 task-1
 
 Reading task-1.md...
 Completes: Gates 1, 2
@@ -534,6 +551,7 @@ Ready for commit. Suggested message:
 After implementing and committing a task, decide next step:
 
 **If more gates remain:**
+
 ```bash
 /task-plan <issue-identifier>
 ```
@@ -542,6 +560,7 @@ After implementing and committing a task, decide next step:
 - **COMPLEX:** Plans next task based on previous task's Implementation Notes
 
 **If all gates complete:**
+
 ```bash
 /cleanup <issue-identifier>
 ```
@@ -554,11 +573,12 @@ Proceed to cleanup phase.
 
 Review the branch before PR, validate all gates, fix quality issues.
 
-**Command:** `/cleanup <issue-identifier>`
+**Command:** `/wf-04-cleanup <issue-identifier>`
 
 **Three-phase process:**
 
 **Phase 1 - Audit:** Agent reviews all changes in branch, creates numbered audit list:
+
 - Temporary comments left behind
 - Debug code or console logs
 - Inconsistent naming
@@ -568,6 +588,7 @@ Review the branch before PR, validate all gates, fix quality issues.
 - Undocumented architectural decisions (may need ADR)
 
 **Phase 2 - Fix:** Human selects which items to fix:
+
 - "all" -- fix everything
 - "1,3,4,5" -- fix specific items
 - "all except 2,6" -- fix most, skip some
@@ -575,12 +596,14 @@ Review the branch before PR, validate all gates, fix quality issues.
 Agent fixes approved items.
 
 **Phase 3 - Validate:** Agent:
+
 - Re-verifies ALL gates from gates.md
 - Checks off each gate as verified
 - Runs full test suite
 - Reports final status
 
 **Human:**
+
 - Reviews fixes
 - Commits cleanup changes
 - Opens PR if all gates pass
@@ -592,15 +615,17 @@ Agent fixes approved items.
 ### Design (when needed)
 
 **When to use:**
+
 - Can't write meaningful gates (interface undefined)
 - Multiple implementation approaches with significant tradeoffs
 - New module/component with no established pattern
 
-**Command:** `/design <issue-identifier>`
+**Command:** `/wf-design <issue-identifier>`
 
 **Output:** Lightweight design doc (50-100 lines) in `.agents/tasks/<issue>/design.md`
 
 **Contains:**
+
 - Problem statement
 - Key decisions and tradeoffs
 - Interface signatures (no implementation)
@@ -609,13 +634,14 @@ Agent fixes approved items.
 
 **Rule:** Design phase produces NO code. Signatures and types only.
 
-**Note:** For decisions with significant tradeoffs that need formal documentation, consider `/adr` instead of or in addition to design.
+**Note:** For decisions with significant tradeoffs that need formal documentation, consider `/wf-adr` instead of or in addition to design.
 
 ---
 
 ### ADR (when architectural decisions need recording)
 
 **When to use:**
+
 - New abstraction or pattern being introduced
 - Multiple viable approaches with significant tradeoffs
 - Technology or dependency choice
@@ -623,11 +649,12 @@ Agent fixes approved items.
 - Deviation from established codebase patterns
 - Agent flags "this requires a decision" during implementation
 
-**Command:** `/adr <decision-title>`
+**Command:** `/wf-adr <decision-title>`
 
 **Output:** ADR document in `docs/architecture/adrs/NNN-<decision-title>.md`
 
 **Contains:**
+
 - Context and decision drivers
 - Options considered with pros/cons
 - Agent recommendation with caveats
@@ -636,22 +663,24 @@ Agent fixes approved items.
 
 **Rule:** Agent researches and presents options; human selects and provides rationale. Prevents decision delegation.
 
-See `/adr` command specification for full details.
+See `/wf-adr` command specification for full details.
 
 ---
 
 ### Investigate (when confused)
 
 **When to use:**
+
 - Don't understand existing code well enough to plan
 - Need to understand current state before defining gates
 - Working with stubs or incomplete implementations
 
-**Command:** `/investigate <issue-identifier>`
+**Command:** `/wf-investigate <issue-identifier>`
 
 **Output:** Investigation notes in `.agents/tasks/<issue>/investigation.md`
 
 **Agent:**
+
 - Explores codebase
 - Documents findings
 - Asks clarifying questions
@@ -663,18 +692,20 @@ See `/adr` command specification for full details.
 ### Summarise (when stuck or switching contexts)
 
 **When to use:**
+
 - Context feels polluted (confused responses)
 - After three failures on same problem
 - Need to switch contexts (end of day, interruption)
 - Before starting fresh session
 
-**Command:** `/summarise <issue-identifier> <task-identifier>`
+**Command:** `/wf-summarise <issue-identifier> <task-identifier>`
 
-Or simply: `/summarise` (auto-detects context)
+Or simply: `/wf-summarise` (auto-detects context)
 
 **Output:** Handoff document for fresh session
 
 **Contains:**
+
 - What was being worked on
 - What's complete
 - What's in progress
@@ -689,83 +720,88 @@ Or simply: `/summarise` (auto-detects context)
 All commands use slash-command syntax (no arguments like `--flag`):
 
 ### Core Workflow
+
 ```
-/issue-plan
-/define-gates <issue-identifier>
-/task-plan <issue-identifier>
-/implement <issue-identifier> <task-identifier>
-/cleanup <issue-identifier>
+/wf-01-issue-plan
+/wf-define-gates <issue-identifier>
+/wf-02-task-plan <issue-identifier>
+/wf-03-implement <issue-identifier> <task-identifier>
+/wf-04-cleanup <issue-identifier>
 ```
 
 ### Optional On-Demand
+
 ```
-/design <issue-identifier>
-/adr <decision-title>
-/investigate <issue-identifier>
-/summarise <issue-identifier> <task-identifier>
-/summarise
+/wf-design <issue-identifier>
+/wf-adr <decision-title>
+/wf-investigate <issue-identifier>
+/wf-summarise <issue-identifier> <task-identifier>
+/wf-summarise
 ```
 
 ### Example Flow (Simple Issue)
+
 ```
-/issue-plan
+/wf-01-issue-plan
 # Creates issue-47-user-email-validation
 
-/define-gates issue-47-user-email-validation
+/wf-define-gates issue-47-user-email-validation
 # Creates gates.md (SIMPLE complexity, 2 tasks recommended)
 
-/task-plan issue-47-user-email-validation
+/wf-02-task-plan issue-47-user-email-validation
 # Creates task-1.md, task-2.md
 
-/implement issue-47-user-email-validation task-1
+/wf-03-implement issue-47-user-email-validation task-1
 # Human commits
 
-/implement issue-47-user-email-validation task-2
+/wf-03-implement issue-47-user-email-validation task-2
 # Human commits
 
-/cleanup issue-47-user-email-validation
+/wf-04-cleanup issue-47-user-email-validation
 # Human commits cleanup, opens PR
 ```
 
 ### Example Flow (Complex Issue)
+
 ```
-/issue-plan
+/wf-01-issue-plan
 # Creates issue-52-terraform-rds
 
-/investigate issue-52-terraform-rds
+/wf-investigate issue-52-terraform-rds
 # Explores existing infrastructure
 
-/define-gates issue-52-terraform-rds
+/wf-define-gates issue-52-terraform-rds
 # Creates gates.md (COMPLEX complexity)
 
-/task-plan issue-52-terraform-rds
+/wf-02-task-plan issue-52-terraform-rds
 # Creates task-1.md only
 
-/implement issue-52-terraform-rds task-1
+/wf-03-implement issue-52-terraform-rds task-1
 # Human commits
 
-/task-plan issue-52-terraform-rds
+/wf-02-task-plan issue-52-terraform-rds
 # Creates task-2.md based on task-1 learnings
 
-/implement issue-52-terraform-rds task-2
+/wf-03-implement issue-52-terraform-rds task-2
 # Human commits
 
-/cleanup issue-52-terraform-rds
+/wf-04-cleanup issue-52-terraform-rds
 ```
 
 ### Example Flow (With ADR)
+
 ```
-/issue-plan
+/wf-01-issue-plan
 # Creates issue-63-api-versioning
 
-/adr api-versioning-pattern
+/wf-adr api-versioning-pattern
 # Agent researches options, human selects approach
 # Creates docs/architecture/adrs/022-api-versioning-pattern.md
 
-/define-gates issue-63-api-versioning
+/wf-define-gates issue-63-api-versioning
 # Creates gates.md informed by ADR decision
 
-/task-plan issue-63-api-versioning
+/wf-02-task-plan issue-63-api-versioning
 # Creates tasks based on chosen approach
 
 ...
@@ -779,7 +815,7 @@ All commands use slash-command syntax (no arguments like `--flag`):
 |--------------|--------------|---------|
 | Long sessions across multiple tasks | Context pollution, forgotten instructions | Fresh session per task |
 | Massive AGENTS.md (500+ lines) | Gets ignored as context fills | Under 200 lines, non-negotiables only |
-| **Skipping gate definition** | Vague completion criteria, rubber-stamp risk | Always run `/define-gates` |
+| **Skipping gate definition** | Vague completion criteria, rubber-stamp risk | Always run `/wf-define-gates` |
 | **Writing tests when commands work better** | Maintenance burden for no value | Choose verification type based on domain |
 | **Multiple commits per task** | Unreviewable diffs, tangled changes | Each task = one commit |
 | **Comprehensive upfront design** | Goes stale, creates review burden | Design on-demand when gaps emerge |
@@ -806,7 +842,7 @@ All commands use slash-command syntax (no arguments like `--flag`):
 | **Using numbered lists instead of checkboxes** | Can't track completion status | Always use `- [ ]` for trackable items |
 | **Skipping gate validation in cleanup** | Issue may not be complete | Phase 3 of cleanup validates all gates |
 | **Ignoring splitting recommendations** | Long-running branches, merge conflicts | Consider suggested splits seriously |
-| **Making architectural decisions silently** | Decision delegation, no audit trail | Use `/adr` for significant decisions |
+| **Making architectural decisions silently** | Decision delegation, no audit trail | Use `/wf-adr` for significant decisions |
 | **Single-option ADRs** | No real decision, just documentation | Require minimum 2 viable options |
 
 ---
@@ -889,4 +925,4 @@ Taking manual control isn't failure -- it is recognizing the right tool for the 
 
 19. **Validate before declaring done** -- Cleanup Phase 3 verifies and checks off all issue gates
 
-20. **Record architectural decisions** -- Use `/adr` when introducing patterns, choosing technologies, or deviating from established approaches
+20. **Record architectural decisions** -- Use `/wf-adr` when introducing patterns, choosing technologies, or deviating from established approaches
