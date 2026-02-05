@@ -11,7 +11,7 @@ Research, evaluate, and document architectural decisions with explicit human app
 
 **You MUST stop and wait for user input at each phase boundary.**
 
-This workflow has TWO mandatory checkpoints. You CANNOT skip them. You CANNOT combine phases. You CANNOT make the decision yourself.
+This workflow has THREE mandatory checkpoints. You CANNOT skip them. You CANNOT combine phases. You CANNOT make the decision yourself.
 
 If you find yourself writing a complete ADR with a decision without having asked the user which option to choose, **STOP IMMEDIATELY** -- you have violated the workflow.
 
@@ -27,6 +27,13 @@ If you find yourself writing a complete ADR with a decision without having asked
 - Agent flags "this requires a decision" during implementation
 - Reviewer spots undocumented architectural choice in PR
 
+## When NOT to Use
+
+- Obvious choices with no real alternatives
+- Following established codebase patterns exactly
+- Decisions already documented elsewhere (RFC, design doc)
+- Trivial implementation details
+
 ## Command
 
 ```
@@ -40,7 +47,72 @@ Optional context flag when triggered from an issue:
 
 ---
 
-## Phase 1: Research
+## Phase 0: Qualification Check
+
+Before researching, evaluate whether this decision warrants an ADR.
+
+### Steps
+
+1. **Check "When to Use" criteria**
+   - Does this match at least one of:
+     - New abstraction or pattern being introduced
+     - Multiple viable implementation approaches with significant tradeoffs
+     - Technology or dependency choice
+     - Interface design that will be hard to change later
+     - Deviation from established codebase patterns
+     - Agent flags "this requires a decision" during implementation
+     - Reviewer spots undocumented architectural choice in PR
+
+2. **Check "When NOT to Use" exclusions**
+   - Is this any of these? (If yes, do NOT proceed with ADR)
+     - Obvious choice with no real alternatives
+     - Following established codebase patterns exactly
+     - Decision already documented elsewhere (RFC, design doc)
+     - Trivial implementation detail
+
+3. **Check for existing documentation**
+   - Is this decision already captured in an existing ADR, design doc, or RFC?
+
+### Phase 0 Output
+
+Present qualification verdict:
+
+> **ADR Qualification Assessment**
+>
+> **Decision:** [decision title]
+>
+> **Matches "When to Use" criteria:**
+> - [x] [Criterion that applies] - [brief explanation]
+> - [ ] [Criterion that doesn't apply]
+>
+> **Matches "When NOT to Use" exclusions:**
+> - [ ] Obvious choice - [No/Yes: explanation]
+> - [ ] Follows existing pattern - [No/Yes: explanation]
+> - [ ] Already documented - [No/Yes: explanation]
+> - [ ] Trivial detail - [No/Yes: explanation]
+>
+> **Verdict:** [QUALIFIES / DOES NOT QUALIFY]
+>
+> **Reasoning:** [1-2 sentences]
+
+---
+
+## ⛔ MANDATORY STOP 0
+
+**DO NOT proceed to Phase 1 until the user confirms this warrants an ADR.**
+
+If verdict is DOES NOT QUALIFY, suggest alternatives:
+- "This appears to follow existing patterns. Consider just documenting in code comments."
+- "This seems trivial. Proceed without ADR?"
+- "This is already covered in [existing doc]. Reference that instead?"
+
+**Violations:**
+- ❌ Starting research without qualification check
+- ❌ Proceeding when verdict is DOES NOT QUALIFY without user override
+
+---
+
+## Phase 1: Research (ONLY after user confirms qualification)
 
 ### Steps
 
@@ -174,15 +246,91 @@ You have completed Phase 2. STOP HERE. Wait for the user to choose.
 
 ## Phase 3: Record (ONLY after user selects option and provides rationale)
 
+### Pre-Record Checklist
+
+Before writing the final ADR:
+
+1. **Length check:** Will the ADR be under 150 lines?
+   - If not, identify what to summarize or move to design doc
+
+2. **Content check:** Does it contain ONLY template sections?
+   - If not, remove or relocate extra content
+
+3. **Template compliance:** All required sections present?
+
+### Steps
+
 After human selects option and provides rationale:
 
-1. Write the complete ADR document
+1. Write the complete ADR document using ONLY the template sections below
 2. Update status to **Accepted**
 3. Save to `docs/architecture/adrs/NNN-<decision-title>.md`
 4. If linked to issue, reference in issue file
 5. Remind human to update ADR README table
 
-### ADR Document Format
+---
+
+## ADR Content Requirements
+
+The ADR document contains EXACTLY these sections, in this order:
+
+### 1. Status
+Format: `**Accepted**` with date
+
+### 2. Context
+- What situation requires this decision?
+- What constraints exist?
+- What is the current state?
+- Keep under 30 lines
+
+### 3. Decision Drivers
+Table format with Weight column:
+| Driver | Weight |
+| ------ | ------ |
+| [Factor] | High/Medium/Low |
+
+### 4. Options Considered
+For each option (minimum 2, typically 3-4):
+- Brief description (2-3 sentences)
+- **Pros:** 3-5 bullet points
+- **Cons:** 3-5 bullet points
+
+### 5. Agent Recommendation
+- **Recommended:** Option [X]
+- **Reasoning:** Why this option best addresses the decision drivers (3-5 sentences)
+- **Caveats:** What could make this the wrong choice (2-3 bullets)
+
+### 6. Decision
+`**Use [Selected Option]** for [purpose/use case].`
+_[Human fills in after selecting]_
+
+### 7. Rationale
+Numbered reasons why this option was chosen
+_[Human fills in after selecting]_
+
+### 8. Consequences
+Agent fills in based on analysis:
+- **Positive:** Expected benefits (3-5 bullets)
+- **Negative:** Expected downsides (2-4 bullets)
+- **Risks:** Known risks with mitigations (2-4 bullets)
+
+### 9. References
+Links to relevant documentation, articles, or resources
+
+---
+
+## STRICT: No Extra Content
+
+The ADR contains ONLY the 9 sections listed above.
+
+If you want to add something that doesn't fit in these sections, STOP and ask:
+"I have additional information about [topic]. Should I create a separate design document?"
+
+**Length target:** Total ADR under 150 lines.
+
+---
+
+## ADR Document Template
 
 ```markdown
 # ADR-NNN: [Short Title]
@@ -225,6 +373,14 @@ After human selects option and provides rationale:
 - Disadvantage 1
 - Disadvantage 2
 
+## Agent Recommendation
+
+**Recommended:** Option [X]
+
+**Reasoning:** [Why this option best addresses the decision drivers]
+
+**Caveats:** [What could make this the wrong choice]
+
 ## Decision
 
 **Use [Selected Option]** for [purpose/use case].
@@ -239,13 +395,13 @@ After human selects option and provides rationale:
 ## Consequences
 
 ### Positive
-- [Expected benefits]
+- [Agent fills in expected benefits based on option analysis]
 
 ### Negative
-- [Expected downsides]
+- [Agent fills in expected downsides]
 
 ### Risks
-- [Risks and mitigations]
+- [Agent fills in risks with mitigations]
 
 ## References
 
@@ -326,13 +482,7 @@ When reviewer spots undocumented decision:
 | Skipping rationale | No audit trail for why | Require human to state reasoning |
 | ADR for trivial choices | Process overhead without value | Reserve for significant decisions |
 | All drivers "High" weight | No real prioritization | Force ranking of what matters most |
-
-## When NOT to Use
-
-- Obvious choices with no real alternatives
-- Following established codebase patterns exactly
-- Decisions already documented elsewhere (RFC, design doc)
-- Trivial implementation details
+| Extra sections added | Scope creep, implementation details | Stick to the 9 template sections only |
 
 ## Lifecycle
 
