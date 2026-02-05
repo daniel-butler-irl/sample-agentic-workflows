@@ -37,7 +37,7 @@ This workflow is deliberately designed around two constraints that other methodo
 Spec-heavy approaches (walls of markdown, detailed upfront plans, comprehensive documentation) create review fatigue. Engineers skim, approve, and move on -- defeating the purpose of human oversight.
 
 **How this workflow addresses it:**
-- **Small issues (1-3 per batch)** -- Each issue definition fits in working memory
+- **One issue at a time** -- Each issue definition fits in working memory
 - **One task = one commit** -- Diffs are reviewable in minutes, not hours
 - **Gate-based verification** -- Clear pass/fail criteria, not subjective review
 - **Three-phase cleanup** -- Audit, fix, then validate success criteria
@@ -208,9 +208,9 @@ Define what you want to build in small, coherent chunks.
 
 **Command:** `/wf-01-issue-plan`
 
-**Output:** 1-3 issue definitions (GitHub issues or markdown files in `.agents/issues/`)
+**Output:** Issue definition (GitHub issue or markdown file in `.agents/issues/`)
 
-**Key principle:** Plan 1-3 issues at a time, re-evaluate after completing each batch. Later issues in larger batches will be wrong.
+**Key principle:** Focus on one issue at a time, re-evaluate after completion.
 
 **Issue template:**
 ```markdown
@@ -801,7 +801,7 @@ All commands use slash-command syntax (no arguments like `--flag`):
 | **500-line design docs** | Won't be read or maintained | Keep under 100 lines |
 | **Writing code in design phase** | Premature commitment, wrong phase | Signatures and types only |
 | **Skipping investigation on stubs** | Can't define meaningful gates | Investigate first, then define gates |
-| Planning 10+ issues at once | Later issues will be wrong | Batch 1-3, re-evaluate after each |
+| Planning many issues at once | Later issues will be wrong | One issue at a time, re-evaluate after each |
 | **Planning all tasks when complex** | Later tasks will be wrong, stale definitions | Respect complexity assessment |
 | **Never updating issue scope** | Reality diverges from plan | Update issue when discoveries warrant |
 | Trusting "it's done" | AI optimizes for appearing complete | Verify gates yourself |
@@ -891,7 +891,7 @@ Taking manual control isn't failure -- it is recognizing the right tool for the 
 
 13. **Cleanup before PR, not after** -- Review your own branch with fresh AI eyes before merge
 
-14. **Small batches, constant re-evaluation** -- 1-3 issues at a time, respond to what you learn
+14. **One issue at a time, constant re-evaluation** -- Focus on a single issue, respond to what you learn
 
 15. **Know when to take the wheel** -- 3 failures on a focused task, Summarise first, then manual if still failing
 

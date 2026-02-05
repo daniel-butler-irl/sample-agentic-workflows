@@ -59,7 +59,7 @@ Each implementation includes tool-specific setup instructions and an AGENTS file
 
 ### Core Workflow
 
-1. **Issue Planning**: Define 1-3 issues with clear success criteria
+1. **Issue Planning**: Define an issue with clear success criteria
 2. **Task Planning**: Break issues into commit-sized tasks (50-200 lines each)
 3. **Implementation**: Execute single task with explicit verification
 4. **Cleanup**: Three-phase audit before PR (audit, fix, validate)

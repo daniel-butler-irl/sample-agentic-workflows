@@ -35,7 +35,7 @@ Search project knowledge for:
 
 | Phase | Command | Purpose |
 |-------|---------|---------|
-| Issue Plan | `/wf-01-issue-plan` | Define 1-3 issues with success criteria |
+| Issue Plan | `/wf-01-issue-plan` | Define an issue with success criteria |
 | Define Gates | `/wf-define-gates` | Define verification strategy for each criterion (MANDATORY) |
 | Task Plan | `/wf-02-task-plan` | Plan tasks based on gates and complexity |
 | Implement | `/wf-03-implement` | Execute single task, verify gate |
@@ -88,8 +88,8 @@ ADRs prevent "decision delegation" - the anti-pattern where humans rubber-stamp 
 - Create audit trail for future reference and incident response
 - Make architectural decisions visible and reviewable
 
-### Bounded Planning (1-3 issues)
-Later issues will be wrong anyway. Reality diverges from plans. Plan iteratively, re-evaluate after each batch. One issue is perfectly acceptable - don't over-plan.
+### Bounded Planning
+Reality diverges from plans. Plan iteratively, re-evaluate after completing each issue. One focused issue at a time keeps work manageable.
 
 ### One Task, One Commit
 Each task fits in a reviewable commit (50-200 lines, 1-5 files). Task planning respects this constraint.
@@ -188,12 +188,6 @@ Summarise adapts to whatever phase you're in - it captures design decisions, inv
 - Task planning uses Implementation Notes from previous tasks
 - Iterative planning adapts to discoveries
 - SIMPLE issues: Clear path means upfront planning is efficient
-
-### "Why 1-3 issues instead of more?"
-- Human cognitive load - reviewing 5+ issues leads to rubber-stamping
-- Later issues will be wrong anyway as reality diverges
-- One focused issue is often better than three vague ones
-- Re-evaluate after each batch completes
 
 ### "How do bug reports fit the workflow?"
 1. If bug is clear and you can define verification gates --> Issue Plan

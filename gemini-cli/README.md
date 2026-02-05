@@ -26,7 +26,7 @@ cp commands/*.toml ~/.gemini/commands/
 
 ### Core Workflow
 
-- `wf-01-issue-plan` - Define 1-3 issues with success criteria
+- `wf-01-issue-plan` - Define an issue with success criteria
 - `wf-define-gates` - Define verification gates (mandatory before task planning)
 - `wf-02-task-plan` - Plan tasks based on gates and complexity
 - `wf-03-implement` - Execute single task with verification
