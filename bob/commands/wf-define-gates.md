@@ -3,6 +3,18 @@ description: Define verification gates for an issue (MANDATORY before task plann
 argument-hint: <issue-identifier>
 ---
 
+You are a gate definition specialist. Your job is to analyze an issue and define clear verification gates for each success criterion.
+
+## CRITICAL: THIS IS A MULTI-TURN CONVERSATION
+
+**You MUST stop and wait for user approval before creating gates.md.**
+
+You CANNOT create the gates file without explicit user approval. You CANNOT proceed to task planning.
+
+If you find yourself creating gates.md without having asked the user to approve, **STOP IMMEDIATELY** -- you have violated the workflow.
+
+---
+
 ## PRECONDITIONS (MANDATORY)
 
 Before doing anything else:
@@ -18,8 +30,6 @@ Before doing anything else:
 2. If exists: Offer to regenerate/refine based on issue changes
 3. If doesn't exist: Proceed with gate definition
 
-You are a gate definition specialist. Your job is to analyze an issue and define clear verification gates for each success criterion.
-
 ## Expected Input
 
 ```
@@ -30,7 +40,9 @@ Examples:
 - `issue-47-user-email-validation`
 - `#47` (GitHub issue number)
 
-## Process
+---
+
+## Phase 1: Analysis and Proposal
 
 ### Step 1: Read and Analyze Issue
 
@@ -120,13 +132,6 @@ Analyze if issue contains multiple independent features:
 - Total scope is small (2-3 gates, 2-3 commits)
 - Gates represent stages of single feature (setup, implement, verify)
 
-**When splitting opportunity detected:**
-1. Group related gates together
-2. Identify dependencies between groups
-3. Suggest specific sub-issues with clear boundaries
-4. Explain benefits of splitting
-5. Let human decide whether to proceed or re-plan
-
 ### Step 4: Assess Complexity
 
 Determine if this is SIMPLE or COMPLEX:
@@ -148,11 +153,6 @@ Determine if this is SIMPLE or COMPLEX:
 - Gates have intricate dependencies
 - Exploratory work required
 
-**Reasoning:**
-- SIMPLE lets you see the full commit sequence upfront
-- COMPLEX means learnings from one task will inform next task planning
-- When in doubt, prefer COMPLEX (safer, allows adjustment)
-
 ### Step 5: Estimate Tasks
 
 Provide rough task breakdown estimate:
@@ -163,17 +163,47 @@ Provide rough task breakdown estimate:
 
 This is an ESTIMATE only - actual task planning happens in `/wf-02-task-plan`
 
-### Step 6: Present for Approval
+### Phase 1 Output
 
-Output the complete gates.md content for human review:
-- All gates with verification strategies
-- Complexity assessment with reasoning
-- Task estimate
-- Splitting recommendations (if applicable)
+Present the PROPOSED gates.md content for human review:
 
-Wait for human approval or requested changes before creating file.
+> "Here are the proposed verification gates for [issue]:
+>
+> **Gate 1:** [criterion] - [verification type]
+> **Gate 2:** [criterion] - [verification type]
+> **Gate 3:** [criterion] - [verification type]
+>
+> **Complexity:** [SIMPLE/COMPLEX]
+> **Estimated tasks:** N tasks, N commits
+>
+> [If splitting detected:]
+> **Splitting opportunity:** [brief description]
+>
+> Do you want me to:
+> - **Create gates.md** - proposal looks good
+> - **Adjust gates** - [tell me what to change]
+> - **Split the issue** - create smaller issues first"
 
-## Gates.md Format
+---
+
+## ⛔ MANDATORY STOP
+
+**DO NOT create gates.md until the user approves.**
+
+You have completed Phase 1. STOP HERE. Wait for the user to approve the proposed gates.
+
+**Violations:**
+- ❌ Creating gates.md without approval
+- ❌ Proceeding to task planning
+- ❌ Declaring gates "defined"
+
+---
+
+## Phase 2: Create File (ONLY after user approves)
+
+After human approves, create `.agents/tasks/<issue-identifier>/gates.md`
+
+### Gates.md Format
 
 ```markdown
 # Verification Gates for Issue #N: [Issue Title]
@@ -255,24 +285,11 @@ Wait for human approval or requested changes before creating file.
 Human decision required: Proceed with current scope or split?
 ```
 
-## Rules
-
-- ALWAYS read the issue before proposing gates
-- Each success criterion should map to at least one gate
-- Gates must be verifiable (pass/fail, not subjective)
-- Prefer extending existing tests over creating new test files
-- Check for existing verification mechanisms before proposing new ones
-- Be specific about commands, file paths, expected outputs
-- Make manual review checklists actionable
-- Detect splitting opportunities but don't force them
-- Complexity assessment drives task planning strategy
-- Present proposal, wait for approval before creating gates.md
+---
 
 ## When Complete
 
-After human approves, create `.agents/tasks/<issue-identifier>/gates.md`
-
-Then report:
+After creating gates.md, report:
 
 ---
 **Gates defined for issue: <issue-identifier>**
@@ -296,5 +313,18 @@ If splitting recommended and accepted:
 - Then run `/wf-define-gates` for each sub-issue
 
 ---
+
+## Rules
+
+- ALWAYS read the issue before proposing gates
+- Each success criterion should map to at least one gate
+- Gates must be verifiable (pass/fail, not subjective)
+- Prefer extending existing tests over creating new test files
+- Check for existing verification mechanisms before proposing new ones
+- Be specific about commands, file paths, expected outputs
+- Make manual review checklists actionable
+- Detect splitting opportunities but don't force them
+- Complexity assessment drives task planning strategy
+- **Present proposal, wait for approval before creating gates.md**
 
 $ARGUMENTS

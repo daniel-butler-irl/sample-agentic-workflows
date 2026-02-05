@@ -7,6 +7,16 @@ argument-hint: <decision-title>
 
 Research, evaluate, and document architectural decisions with explicit human approval. Prevents decision delegation by forcing structured consideration of alternatives before committing to an approach.
 
+## CRITICAL: THIS IS A MULTI-TURN CONVERSATION
+
+**You MUST stop and wait for user input at each phase boundary.**
+
+This workflow has TWO mandatory checkpoints. You CANNOT skip them. You CANNOT combine phases. You CANNOT make the decision yourself.
+
+If you find yourself writing a complete ADR with a decision without having asked the user which option to choose, **STOP IMMEDIATELY** -- you have violated the workflow.
+
+---
+
 ## When to Use
 
 - New abstraction or pattern being introduced
@@ -28,9 +38,11 @@ Optional context flag when triggered from an issue:
 /adr <decision-title> --issue <issue-identifier>
 ```
 
-## What the Agent Does
+---
 
-### Phase 1: Research
+## Phase 1: Research
+
+### Steps
 
 1. **Understand the decision context**
    - What problem requires a decision?
@@ -79,18 +91,9 @@ Optional context flag when triggered from an issue:
 
    Wait for all subagents, read summaries, synthesize into tradeoff analysis.
 
-5. **Analyze tradeoffs**
-   - Pros and cons for each option
-   - How each option addresses the decision drivers
-   - Expected consequences (positive, negative, risks)
+### Phase 1 Output
 
----
-
-## MANDATORY STOP 1: After Research
-
-**STOP HERE. Do not proceed until user responds.**
-
-After completing research (Phase 1), ask the user:
+Present ONLY the decision drivers (NOT the full ADR, NOT the options yet):
 
 > "I've identified this as an architectural decision about [topic].
 >
@@ -105,20 +108,88 @@ After completing research (Phase 1), ask the user:
 > - **Add drivers** - [tell me what's missing]
 > - **Remove drivers** - [tell me which aren't relevant]"
 
-**Wait for user response before proceeding to Phase 2.**
+---
+
+## ⛔ MANDATORY STOP 1
+
+**DO NOT proceed to Phase 2 until the user confirms drivers.**
+
+You have completed Phase 1. STOP HERE. Wait for the user to approve decision drivers.
+
+**Violations:**
+- ❌ Presenting options without user confirmation of drivers
+- ❌ Writing the full ADR document
+- ❌ Making a recommendation
 
 ---
 
-### Phase 2: Present
+## Phase 2: Present Options (ONLY after user confirms drivers)
 
-Present findings using the project ADR template format:
+### Analyze tradeoffs
+
+- Pros and cons for each option
+- How each option addresses the decision drivers
+- Expected consequences (positive, negative, risks)
+
+### Phase 2 Output
+
+Present the options analysis with your recommendation:
+
+> **Option 1: [Name]**
+> - Pros: [key advantages]
+> - Cons: [key disadvantages]
+>
+> **Option 2: [Name]**
+> - Pros: [key advantages]
+> - Cons: [key disadvantages]
+>
+> **Option 3: [Name]**
+> - Pros: [key advantages]
+> - Cons: [key disadvantages]
+>
+> **My Recommendation:** Option [X] because [brief reasoning]
+>
+> **Which option do you want to proceed with?**
+> - **Option 1** - [one-line summary]
+> - **Option 2** - [one-line summary]
+> - **Option 3** - [one-line summary]
+> - **Need more research** - [tell me what's unclear]
+>
+> Please select and provide your rationale for the Decision section.
+
+---
+
+## ⛔ MANDATORY STOP 2
+
+**DO NOT proceed to Phase 3 until the user selects an option AND provides rationale.**
+
+You have completed Phase 2. STOP HERE. Wait for the user to choose.
+
+**Violations:**
+- ❌ Picking an option yourself
+- ❌ Writing the ADR without user selection
+- ❌ Proceeding without user-provided rationale
+
+---
+
+## Phase 3: Record (ONLY after user selects option and provides rationale)
+
+After human selects option and provides rationale:
+
+1. Write the complete ADR document
+2. Update status to **Accepted**
+3. Save to `docs/architecture/adrs/NNN-<decision-title>.md`
+4. If linked to issue, reference in issue file
+5. Remind human to update ADR README table
+
+### ADR Document Format
 
 ```markdown
 # ADR-NNN: [Short Title]
 
 ## Status
 
-**Proposed**
+**Accepted** - [date]
 
 ## Context
 
@@ -137,80 +208,30 @@ Present findings using the project ADR template format:
 ### Option 1: [Name]
 
 **Pros:**
-
 - Advantage 1
 - Advantage 2
 
 **Cons:**
-
 - Disadvantage 1
 - Disadvantage 2
 
 ### Option 2: [Name]
 
 **Pros:**
-
 - Advantage 1
 - Advantage 2
 
 **Cons:**
-
 - Disadvantage 1
 - Disadvantage 2
-
-### Option 3: [Name]
-
-**Pros:**
-
-- Advantage 1
-- Advantage 2
-
-**Cons:**
-
-- Disadvantage 1
-- Disadvantage 2
-
----
-
-## Agent Recommendation
-
-**Recommended:** Option [X]
-
-**Reasoning:** [Why this option best addresses the decision drivers]
-
-**Caveats:** [What could make this the wrong choice]
-
----
-
-## MANDATORY STOP 2: After Presenting Options
-
-**STOP HERE. Do not proceed until user responds.**
-
-After presenting the ADR with options and recommendation, ask the user:
-
-> "Here are the options I've researched with my recommendation above.
->
-> **Which option do you want to proceed with?**
-> - **Option 1: [name]** - [one-line summary]
-> - **Option 2: [name]** - [one-line summary]
-> - **Option 3: [name]** - [one-line summary]
-> - **Need more research** - [tell me what's unclear]
->
-> Please select and provide your rationale for the Decision section."
-
-**Wait for user response before proceeding to Phase 3 (Record).**
-
----
 
 ## Decision
 
 **Use [Selected Option]** for [purpose/use case].
 
-[Human fills in after selecting]
-
 ## Rationale
 
-[Human fills in - numbered reasons why this option was chosen]
+[User-provided rationale - numbered reasons why this option was chosen]
 
 1. **Reason 1**: Explanation
 2. **Reason 2**: Explanation
@@ -218,31 +239,20 @@ After presenting the ADR with options and recommendation, ask the user:
 ## Consequences
 
 ### Positive
-
-- [Human fills in expected benefits]
+- [Expected benefits]
 
 ### Negative
-
-- [Human fills in expected downsides]
+- [Expected downsides]
 
 ### Risks
-
-- [Human fills in risks and mitigations]
+- [Risks and mitigations]
 
 ## References
 
 - [Relevant documentation, articles, or resources]
 ```
 
-### Phase 3: Record
-
-After human selects option and completes Decision/Rationale/Consequences sections:
-
-1. Update status to **Accepted**
-2. Save to `docs/architecture/adrs/NNN-<decision-title>.md`
-3. If linked to issue, reference in issue file
-4. If during implementation, add reference to task's Implementation Notes
-5. Remind human to update ADR README table
+---
 
 ## Output Location
 
@@ -256,6 +266,8 @@ docs/architecture/adrs/
 ## ADR Numbering
 
 Sequential numbering (001, 002, etc.) maintained by checking existing files in `docs/architecture/adrs/`.
+
+---
 
 ## Integration Points
 
@@ -291,6 +303,8 @@ When reviewer spots undocumented decision:
 # Human: "Create ADR for that"
 # /adr user-permission-resolution --issue issue-52
 ```
+
+---
 
 ## What Makes a Good ADR
 
