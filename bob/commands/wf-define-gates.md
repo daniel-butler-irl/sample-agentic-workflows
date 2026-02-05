@@ -69,6 +69,31 @@ For EACH success criterion, determine:
 - Specify which test file and what cases
 - Estimate number of test cases needed
 
+**For complex verification strategies**, spawn an exploration subagent:
+```xml
+<new_task>
+<mode>Advanced</mode>
+<message>
+## Objective
+Find existing test patterns for similar work
+
+## Area
+[Test area - e.g., "validation tests", "API integration tests"]
+
+## Output
+Write to: .agents/research/test-patterns-<area>.md
+
+## Instructions
+1. Search codebase for similar test patterns
+2. Document test file locations and patterns used
+3. Note any test utilities or helpers available
+4. Identify patterns that could be reused
+5. Write full findings to file using standard format
+6. Return 1-2 sentence summary only
+</message>
+</new_task>
+```
+
 **For command-based gates:**
 - Provide exact command to run
 - Specify expected output or exit code

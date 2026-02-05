@@ -47,7 +47,39 @@ Optional context flag when triggered from an issue:
    - Include "do nothing" or "minimal change" if applicable
    - Consider both internal patterns and industry approaches
 
-4. **Analyze tradeoffs**
+4. **Research each option via subagents**
+
+   For each identified option, spawn a subagent:
+   ```xml
+   <new_task>
+   <mode>Advanced</mode>
+   <message>
+   ## Objective
+   Research best practices and tradeoffs for specific approach
+
+   ## Option
+   [Option name - e.g., "JWT authentication", "URL path versioning"]
+
+   ## Domain
+   [Context - e.g., "REST API", "microservices", "web application"]
+
+   ## Output
+   Write to: .agents/research/adr-option-<option-name>.md
+
+   ## Instructions
+   1. Web search for "[option] best practices [domain]"
+   2. Find authoritative sources (official docs, well-known blogs)
+   3. Document pros, cons, and gotchas
+   4. Note any migration or adoption considerations
+   5. Write full findings to file using standard format
+   6. Return 1-2 sentence summary only
+   </message>
+   </new_task>
+   ```
+
+   Wait for all subagents, read summaries, synthesize into tradeoff analysis.
+
+5. **Analyze tradeoffs**
    - Pros and cons for each option
    - How each option addresses the decision drivers
    - Expected consequences (positive, negative, risks)

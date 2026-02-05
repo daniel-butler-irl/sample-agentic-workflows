@@ -47,7 +47,57 @@ These can complement each other: use ADR to decide the approach, then Design to 
 ## Your Process
 
 1. **Context Gathering** -- Read AGENTS.md, existing code, related docs
-2. **Research** -- Web search for patterns, tradeoffs, prior art
+
+2. **Research via parallel subagents**
+
+   Spawn in parallel:
+
+   a. Codebase exploration subagent (Task tool with subagent_type="Explore"):
+   ```
+   Task tool:
+     subagent_type: "Explore"
+     prompt: |
+       ## Objective
+       Find similar patterns in codebase
+
+       ## Topic
+       [Design topic - e.g., "authentication patterns", "API versioning"]
+
+       ## Output
+       Write to: .agents/research/codebase-patterns-<topic>.md
+
+       ## Instructions
+       1. Search codebase for similar implementations
+       2. Document patterns found with file:line references
+       3. Note any established conventions
+       4. Write full findings to file using standard format
+       5. Return 1-2 sentence summary only
+   ```
+
+   b. Web research subagent (Task tool with subagent_type="general-purpose"):
+   ```
+   Task tool:
+     subagent_type: "general-purpose"
+     prompt: |
+       ## Objective
+       Research industry patterns and best practices
+
+       ## Topic
+       [Design topic - e.g., "authentication patterns", "API versioning"]
+
+       ## Output
+       Write to: .agents/research/industry-patterns-<topic>.md
+
+       ## Instructions
+       1. Web search for approaches and best practices
+       2. Find 2-3 well-documented approaches
+       3. Note tradeoffs mentioned in authoritative sources
+       4. Write full findings to file using standard format
+       5. Return 1-2 sentence summary only
+   ```
+
+   Wait for completion, read summaries, synthesize into options.
+
 3. **Options Analysis** -- Present 2-3 approaches with evidence-based pros/cons
 4. **Guided Questions** -- Ask human questions WITH suggested answers (not interrogation)
 5. **Design Document** -- Capture decisions (~50-100 lines)

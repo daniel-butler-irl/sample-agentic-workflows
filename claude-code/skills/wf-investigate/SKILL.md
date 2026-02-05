@@ -63,7 +63,39 @@ Investigate issue #17321
 ## Process
 
 1. **Read the issue** - Title, description, external links, parent issues
-2. **Gather external context** - Follow linked issues, docs, error reports
+
+2. **Gather external context via subagents**
+
+   For EACH external item (issue, PR, URL, doc):
+
+   a. Spawn Task tool with subagent_type="general-purpose":
+   ```
+   Task tool:
+     subagent_type: "general-purpose"
+     prompt: |
+       ## Objective
+       Fetch and analyze external reference
+
+       ## Item
+       [Single URL or reference]
+
+       ## Output
+       Write to: .agents/research/<type>-<id>.md
+
+       ## Instructions
+       1. Fetch this ONE item
+       2. Write full findings to file using standard format:
+          - Summary (1-2 sentences)
+          - Key Points (bullet list)
+          - Sub-Items Found (URLs/references needing additional investigation)
+          - Raw Notes (detailed extraction)
+       3. Return 1-2 sentence summary only
+   ```
+
+   b. Check returned summaries for Sub-Items Found
+   c. Spawn additional subagents for discovered sub-items
+   d. Read `.agents/research/` files only when summary insufficient
+
 3. **Find relevant code** - Locate components mentioned or implied
 4. **Trace the gap** - What exists vs what is needed/broken
 5. **Assess scope** - Isolated change or broader impact?

@@ -67,6 +67,80 @@ The workflow treats context management as architecture, not advice. You don't ne
 
 ---
 
+## Subagent Research Directory
+
+Research-heavy phases (investigation, design, ADR) use subagents to gather external context without polluting the coordinator's context window.
+
+### Directory Structure
+
+```
+.agents/
+  research/
+    github-issue-123.md       # Fetched GitHub issue
+    github-pr-456.md          # Fetched pull request
+    codebase-auth-patterns.md # Codebase exploration results
+    industry-patterns-api-versioning.md  # Web research
+    adr-option-jwt.md         # ADR option research
+    test-patterns-validation.md # Test pattern exploration
+```
+
+### Research File Format
+
+```markdown
+# Research: [Type] - [Identifier]
+
+**Source:** [URL or "Codebase exploration"]
+**Fetched:** [ISO timestamp]
+
+## Summary
+[1-2 sentences - coordinator reads this to decide if deep dive needed]
+
+## Key Points
+- [Point 1]
+- [Point 2]
+- [Point 3]
+
+## Sub-Items Found
+- [URL or reference needing additional investigation]
+- [Related issue or PR discovered]
+
+## Raw Notes
+[Detailed extraction, code snippets, full context]
+```
+
+### Two-Tier Access Pattern
+
+Subagents provide **two outputs**:
+
+1. **Full research** → Written to `.agents/research/<type>-<id>.md`
+   - Complete extraction, all details
+   - Persists across sessions
+   - Reusable by future investigations
+
+2. **Summary return** → 1-2 sentences back to coordinator
+   - Keeps coordinator context lightweight
+   - Enough to decide if deep read needed
+
+**Coordinator workflow:**
+1. Spawn subagent with file output path
+2. Receive summary in tool response
+3. If summary sufficient → continue synthesizing
+4. If more detail needed → Read specific `.agents/research/` file
+5. Synthesize from summaries + selective deep reads
+
+### When to Spawn vs Inline
+
+| Condition | Action |
+|-----------|--------|
+| External URL fetch | Spawn subagent |
+| Codebase exploration (>3 searches) | Spawn Explore subagent |
+| Single file read | Inline |
+| Web search for options | Spawn subagent |
+| Synthesizing findings | Always coordinator |
+| User interaction (MANDATORY STOP) | Always coordinator |
+
+---
+
 ## Issues vs Tasks vs Gates
 
 Understanding these three levels is critical:
