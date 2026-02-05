@@ -53,6 +53,70 @@ These can complement each other: use ADR to decide the approach, then Design to 
 4. **Guided Questions** -- Ask human questions WITH suggested answers (not interrogation)
 5. **Design Document** -- Capture decisions (~50-100 lines)
 
+---
+
+## MANDATORY STOP 1: After Context Gathering
+
+**STOP HERE. Do not proceed until user responds.**
+
+After completing context gathering (step 1), ask the user:
+
+> "I've reviewed the codebase context for [topic]. Here's what I found: [summary of relevant code, patterns, constraints].
+>
+> Before researching approaches, is this scope correct?
+> - **Yes, proceed** - research design options
+> - **Narrow scope** - focus on [specific aspect]
+> - **Broader scope** - also include [related concern]
+>
+> Or tell me what you'd prefer."
+
+**Wait for user response before proceeding to Research.**
+
+---
+
+## MANDATORY STOP 2: After Options Analysis
+
+**STOP HERE. Do not proceed until user responds.**
+
+After completing options analysis (step 3), ask the user:
+
+> "I've identified these design approaches:
+>
+> **Option A: [name]** - [brief description, key pros/cons]
+> **Option B: [name]** - [brief description, key pros/cons]
+> **Option C: [name]** - [brief description, key pros/cons]
+>
+> Which approach should I develop into a design document?
+> - **Option A** - [when this makes sense]
+> - **Option B** - [when this makes sense]
+> - **Option C** - [when this makes sense]
+>
+> Or would you like me to explore a different direction?"
+
+**Wait for user response before proceeding to Design Document.**
+
+---
+
+## MANDATORY STOP 3: Before Finalizing Design
+
+**STOP HERE. Do not proceed until user responds.**
+
+After drafting the design document, ask the user:
+
+> "Here's the draft design doc. Before I save it:
+> - Does the interface sketch look right?
+> - Any concerns with the chosen approach?
+> - Any open questions to add?
+>
+> Options:
+> - **Ready to save** - design looks good
+> - **Changes needed** - [tell me what to adjust]
+> - **Rethink approach** - go back to options"
+
+**Wait for user response before saving the design document.**
+
+---
+
 ## Design Document Format
 
 Find appropriate project directory (docs/, design/, architecture/). Create:

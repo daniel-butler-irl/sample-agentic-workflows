@@ -116,9 +116,51 @@ Update the GitHub issue or create `.agents/investigations/[date]-[slug].md`:
 - Follow external links - do not investigate in a vacuum
 - Propose concrete success criteria based on findings
 
+---
+
+## MANDATORY STOP 1: After Documenting Findings
+
+**STOP HERE. Do not proceed until user responds.**
+
+After completing the investigation and documenting findings, ask the user:
+
+> "Investigation complete. Here's what I found: [summary]
+>
+> Proposed success criteria based on findings:
+> - [ ] [criterion 1]
+> - [ ] [criterion 2]
+> - [ ] [criterion 3]
+>
+> Do these criteria capture what's needed?
+> - **Yes, criteria look good** - proceed to recommendation
+> - **Adjust criteria** - [tell me what to change]
+> - **Need more investigation** - [tell me what's unclear]"
+
+**Wait for user response before proceeding.**
+
+---
+
+## MANDATORY STOP 2: Recommended Next Step
+
+**STOP HERE. Do not proceed until user responds.**
+
+After user approves the success criteria, ask the user:
+
+> "Based on this investigation, the recommended next step is:
+> - **Ready for `/wf-01-issue-plan`** - success criteria are clear, scope is understood
+> - **Needs `/wf-design`** - interface decisions required before planning
+> - **Needs decomposition** - too large for single issue, should be split
+> - **Needs `/wf-adr`** - architectural decision required
+>
+> Which would you like to proceed with?"
+
+**Wait for user response before completing.**
+
+---
+
 ## When Complete
 
-After documenting findings:
+After user selects next step:
 
 ---
 **Investigation complete.**
@@ -129,11 +171,7 @@ Issue enriched: [GitHub issue URL or markdown path]
 
 **Scope:** [Small/Medium/Large/Complex]
 
-**Recommended next step:**
-- Ready for `/wf-01-issue-plan` - success criteria are clear
-- Needs `/wf-design` first - interface decisions required
-- Needs decomposition - too large for single issue
-- Needs manual investigation - AI hit limits
+**User-selected next step:** [selected option]
 
 ---
 

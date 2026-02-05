@@ -51,6 +51,31 @@ Optional context flag when triggered from an issue:
    - How each option addresses the decision drivers
    - Expected consequences (positive, negative, risks)
 
+---
+
+## MANDATORY STOP 1: After Research
+
+**STOP HERE. Do not proceed until user responds.**
+
+After completing research (Phase 1), ask the user:
+
+> "I've identified this as an architectural decision about [topic].
+>
+> Decision drivers I found:
+> - [Driver 1] (weight: High/Medium/Low)
+> - [Driver 2] (weight: High/Medium/Low)
+> - [Driver 3] (weight: High/Medium/Low)
+>
+> Are these the right factors? Should I:
+> - **Proceed** - drivers look correct, continue to options analysis
+> - **Adjust weights** - [tell me which to change]
+> - **Add drivers** - [tell me what's missing]
+> - **Remove drivers** - [tell me which aren't relevant]"
+
+**Wait for user response before proceeding to Phase 2.**
+
+---
+
 ### Phase 2: Present
 
 Present findings using the project ADR template format:
@@ -109,6 +134,26 @@ Present findings using the project ADR template format:
 **Reasoning:** [Why this option best addresses the decision drivers]
 
 **Caveats:** [What could make this the wrong choice]
+
+---
+
+## MANDATORY STOP 2: After Presenting Options
+
+**STOP HERE. Do not proceed until user responds.**
+
+After presenting the ADR with options and recommendation, ask the user:
+
+> "Here are the options I've researched with my recommendation above.
+>
+> **Which option do you want to proceed with?**
+> - **Option 1: [name]** - [one-line summary]
+> - **Option 2: [name]** - [one-line summary]
+> - **Option 3: [name]** - [one-line summary]
+> - **Need more research** - [tell me what's unclear]
+>
+> Please select and provide your rationale for the Decision section."
+
+**Wait for user response before proceeding to Phase 3 (Record).**
 
 ---
 

@@ -22,13 +22,9 @@ Before planning issues, check for gaps:
 - Cannot identify which code is affected
 - "I don't understand this well enough to write acceptance tests"
 
-Say: "Understanding gap identified: [describe]. Recommend `/wf-investigate` before planning."
-
 **Design Check:** If ANY are true, suggest Design first:
 - No existing architecture and this is a new system
 - Issue requires a new module/interface that does not exist
-
-Say: "Design gap identified: [describe]. Recommend `/wf-design` before planning."
 
 **ADR Check:** If ANY are true, suggest ADR first:
 - Multiple valid implementation approaches with significant tradeoffs
@@ -36,7 +32,32 @@ Say: "Design gap identified: [describe]. Recommend `/wf-design` before planning.
 - Deviation from established codebase patterns
 - Interface design that will be hard to change later
 
-Say: "Architectural decision identified: [describe]. Recommend `/wf-adr <decision-title>` before planning to evaluate options and record the decision."
+---
+
+## MANDATORY STOP 1: After Pre-Planning Checks
+
+**STOP HERE. Do not proceed until user responds.**
+
+If ANY gap is identified during pre-planning checks, ask the user:
+
+> "Before defining this issue, I identified a gap:
+>
+> **[Investigation/Design/ADR] gap:** [describe the gap]
+>
+> Recommend running `/wf-[phase]` first. Should I:
+> - **Proceed anyway** - you have enough context already
+> - **Run `/wf-investigate`** - understand the issue better first
+> - **Run `/wf-design`** - define interfaces before planning
+> - **Run `/wf-adr`** - make architectural decision first
+>
+> Or tell me what you'd prefer."
+
+**Wait for user response before proceeding.**
+
+If NO gaps are identified, briefly confirm and proceed:
+> "Pre-planning checks passed. No investigation, design, or ADR gaps identified. Proceeding to define the issue."
+
+---
 
 ## Your Output
 
@@ -77,6 +98,35 @@ For the issue, define:
 - ALWAYS use checkboxes (`- [ ]`) for success criteria
 - Do NOT plan implementation details
 - Do NOT write code or pseudocode
+
+---
+
+## MANDATORY STOP 2: After Drafting Issue
+
+**STOP HERE. Do not proceed until user responds.**
+
+After drafting the issue definition, ask the user:
+
+> "Here's the draft issue definition:
+>
+> **Title:** [title]
+> **Objective:** [objective]
+> **Success Criteria:**
+> - [ ] [criterion 1]
+> - [ ] [criterion 2]
+> - [ ] [criterion 3]
+>
+> **Scope Boundaries:** [what's excluded]
+>
+> Is this ready to save?
+> - **Ready to save** - issue definition looks good
+> - **Adjust scope** - [tell me what to change]
+> - **Adjust criteria** - [tell me what to add/remove/modify]
+> - **Rethink entirely** - [tell me what's wrong]"
+
+**Wait for user response before saving the issue.**
+
+---
 
 ## When Complete
 
