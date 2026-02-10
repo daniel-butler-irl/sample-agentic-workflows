@@ -30,13 +30,13 @@ Search project knowledge for:
 | Design | `/wf-design` | Define interfaces (signatures only, no code) |
 | ADR | `/wf-adr` | Research, evaluate, and record architectural decisions |
 | Investigate | `/wf-investigate` | Understand code, enrich issues, diagnose bugs |
+| Issue Plan | `/wf-issue-plan` | Create or enrich issues with success criteria |
 
 **Main Workflow:**
 
 | Phase | Command | Purpose |
 |-------|---------|---------|
-| Issue Plan | `/wf-01-issue-plan` | Define an issue with success criteria |
-| Define Gates | `/wf-define-gates` | Define verification strategy for each criterion (MANDATORY) |
+| Define Gates | `/wf-01-define-gates` | Define verification strategy for each criterion (MANDATORY) |
 | Task Plan | `/wf-02-task-plan` | Plan tasks based on gates and complexity |
 | Implement | `/wf-03-implement` | Execute single task, verify gate |
 | Cleanup | `/wf-04-cleanup` | Three-phase audit before PR (writes task-cleanup.md) |

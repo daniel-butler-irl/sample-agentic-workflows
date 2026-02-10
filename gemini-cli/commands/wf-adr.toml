@@ -72,6 +72,26 @@ Before researching, evaluate whether this decision warrants an ADR.
 3. **Check for existing documentation**
    - Is this decision already captured in an existing ADR, design doc, or RFC?
 
+4. **Significance Test**
+
+   Even if criteria match, the decision must be architecturally significant. Answer these:
+
+   **Reversibility:** If we change this decision in 6 months, what breaks?
+   - Multiple components need rewriting → SIGNIFICANT
+   - One module needs updating → NOT SIGNIFICANT
+
+   **Blast radius:** How many systems/components does this affect?
+   - Cross-cutting (affects state, APIs, multiple services) → SIGNIFICANT
+   - Single component or algorithm → NOT SIGNIFICANT
+
+   **Dependency lock-in:** Does this create external constraints?
+   - Third-party library, protocol, or API we must conform to → SIGNIFICANT
+   - Internal pattern we fully control → NOT SIGNIFICANT
+
+   **To qualify as an ADR, decision must be SIGNIFICANT in at least 2 of 3 tests.**
+
+   Decisions that fail the significance test are implementation details. Document them in design docs, not ADRs.
+
 ### Phase 0 Output
 
 Present qualification verdict:
@@ -84,11 +104,16 @@ Present qualification verdict:
 > - [x] [Criterion that applies] - [brief explanation]
 > - [ ] [Criterion that doesn't apply]
 >
-> **Matches "When NOT to Use" exclusions:**
-> - [ ] Obvious choice - [No/Yes: explanation]
-> - [ ] Follows existing pattern - [No/Yes: explanation]
-> - [ ] Already documented - [No/Yes: explanation]
-> - [ ] Trivial detail - [No/Yes: explanation]
+> **Exclusions (any "Yes" disqualifies):**
+> - Obvious choice with no real alternatives? [No/Yes]
+> - Following established codebase patterns exactly? [No/Yes]
+> - Already documented elsewhere? [No/Yes]
+> - Trivial implementation detail? [No/Yes]
+>
+> **Significance Test (must pass 2 of 3):**
+> - Reversibility: [SIGNIFICANT/NOT SIGNIFICANT] - [why]
+> - Blast radius: [SIGNIFICANT/NOT SIGNIFICANT] - [why]
+> - Dependency lock-in: [SIGNIFICANT/NOT SIGNIFICANT] - [why]
 >
 > **Verdict:** [QUALIFIES / DOES NOT QUALIFY]
 >

@@ -8,7 +8,7 @@ Before doing anything else:
 
 **Gates Check:**
 1. Verify `.agents/tasks/<issue-identifier>/gates.md` exists
-2. If missing: STOP and instruct: "Run `/wf-define-gates <issue-identifier>` first"
+2. If missing: STOP and instruct: "Run `/wf-01-define-gates <issue-identifier>` first"
 3. Read gates.md to get:
    - All gate definitions
    - Complexity assessment (SIMPLE or COMPLEX)

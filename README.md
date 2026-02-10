@@ -56,10 +56,11 @@ Each implementation includes tool-specific setup instructions and an AGENTS file
 
 - **Investigate**: Understand existing code or enrich sparse issues
 - **Design**: Define interfaces and architecture (signatures only, no implementation)
+- **Issue Planning**: Define an issue with clear success criteria
 
 ### Core Workflow
 
-1. **Issue Planning**: Define an issue with clear success criteria
+1. **Define Gates**: Define verification gates for the issue
 2. **Task Planning**: Break issues into commit-sized tasks (50-200 lines each)
 3. **Implementation**: Execute single task with explicit verification
 4. **Cleanup**: Three-phase audit before PR (audit, fix, validate)

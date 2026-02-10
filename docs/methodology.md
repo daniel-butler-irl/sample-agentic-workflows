@@ -282,47 +282,11 @@ A task is not complete until:
 
 ## The Workflow Phases
 
-### Phase 1: Issue Planning
-
-Define what you want to build in small, coherent chunks.
-
-**Command:** `/wf-01-issue-plan`
-
-**Output:** Issue definition (GitHub issue or markdown file in `.agents/issues/`)
-
-**Key principle:** Focus on one issue at a time, re-evaluate after completion.
-
-**Issue template:**
-
-```markdown
-## Issue: [Title]
-
-**Objective:**
-What does "done" look like for this issue?
-
-**Success Criteria:**
-- [ ] Specific, verifiable condition 1
-- [ ] Specific, verifiable condition 2
-- [ ] Specific, verifiable condition 3
-
-**Gates:** (optional -- can define here or during gate definition phase)
-- Gate 1: [rough description]
-- Gate 2: [rough description]
-
-**Scope Boundaries:**
-What is NOT included in this issue?
-- Out: Feature X (separate issue)
-- Out: Performance optimization (later)
-- Out: Pre-existing bugs (file separately)
-```
-
----
-
-### Phase 2: Define Verification Gates (NEW - MANDATORY)
+### Phase 1: Define Verification Gates (MANDATORY)
 
 Before planning tasks, explicitly define how you'll verify each success criterion.
 
-**Command:** `/wf-define-gates <issue-identifier>`
+**Command:** `/wf-01-define-gates <issue-identifier>`
 
 **What it does:**
 
@@ -464,7 +428,7 @@ Human decision required: Proceed with current scope or split?
 
 ---
 
-### Phase 3: Task Planning
+### Phase 2: Task Planning
 
 Plan implementation tasks based on the gates.
 
@@ -558,7 +522,7 @@ After task-1 completes, return here to plan task-2 based on learnings.
 
 ---
 
-### Phase 4: Task Execution
+### Phase 3: Task Execution
 
 Implement a specific task.
 
@@ -620,7 +584,7 @@ Ready for commit. Suggested message:
 
 ---
 
-### Phase 5: Next Task or Cleanup
+### Phase 4: Next Task or Cleanup
 
 After implementing and committing a task, decide next step:
 
@@ -643,7 +607,7 @@ Proceed to cleanup phase.
 
 ---
 
-### Phase 6: Cleanup and Verification
+### Phase 5: Cleanup and Verification
 
 Review the branch before PR, validate all gates, fix quality issues.
 
@@ -685,6 +649,48 @@ Agent fixes approved items.
 ---
 
 ## Optional On-Demand Phases
+
+### Issue Planning (when starting from scratch)
+
+**When to use:**
+
+- Starting a new feature or change from scratch
+- Need to define scope and success criteria for a body of work
+- Want structured issue definition before defining gates
+
+**Command:** `/wf-issue-plan`
+
+**Output:** Issue definition (GitHub issue or markdown file in `.agents/issues/`)
+
+**Key principle:** Focus on one issue at a time, re-evaluate after completion.
+
+**Issue template:**
+
+```markdown
+## Issue: [Title]
+
+**Objective:**
+What does "done" look like for this issue?
+
+**Success Criteria:**
+- [ ] Specific, verifiable condition 1
+- [ ] Specific, verifiable condition 2
+- [ ] Specific, verifiable condition 3
+
+**Gates:** (optional -- can define here or during gate definition phase)
+- Gate 1: [rough description]
+- Gate 2: [rough description]
+
+**Scope Boundaries:**
+What is NOT included in this issue?
+- Out: Feature X (separate issue)
+- Out: Performance optimization (later)
+- Out: Pre-existing bugs (file separately)
+```
+
+**Note:** Many teams already have issues defined in GitHub or other tracking systems. Use this command when you need to create a new issue from scratch. If an issue already exists, skip directly to `/wf-01-define-gates`.
+
+---
 
 ### Design (when needed)
 
@@ -796,8 +802,7 @@ All commands use slash-command syntax (no arguments like `--flag`):
 ### Core Workflow
 
 ```
-/wf-01-issue-plan
-/wf-define-gates <issue-identifier>
+/wf-01-define-gates <issue-identifier>
 /wf-02-task-plan <issue-identifier>
 /wf-03-implement <issue-identifier> <task-identifier>
 /wf-04-cleanup <issue-identifier>
@@ -806,6 +811,7 @@ All commands use slash-command syntax (no arguments like `--flag`):
 ### Optional On-Demand
 
 ```
+/wf-issue-plan
 /wf-design <issue-identifier>
 /wf-adr <decision-title>
 /wf-investigate <issue-identifier>
@@ -816,10 +822,9 @@ All commands use slash-command syntax (no arguments like `--flag`):
 ### Example Flow (Simple Issue)
 
 ```
-/wf-01-issue-plan
-# Creates issue-47-user-email-validation
+# Start from an existing issue (GitHub, markdown, etc.)
 
-/wf-define-gates issue-47-user-email-validation
+/wf-01-define-gates issue-47-user-email-validation
 # Creates gates.md (SIMPLE complexity, 2 tasks recommended)
 
 /wf-02-task-plan issue-47-user-email-validation
@@ -838,13 +843,12 @@ All commands use slash-command syntax (no arguments like `--flag`):
 ### Example Flow (Complex Issue)
 
 ```
-/wf-01-issue-plan
-# Creates issue-52-terraform-rds
+# Start from an existing issue
 
 /wf-investigate issue-52-terraform-rds
 # Explores existing infrastructure
 
-/wf-define-gates issue-52-terraform-rds
+/wf-01-define-gates issue-52-terraform-rds
 # Creates gates.md (COMPLEX complexity)
 
 /wf-02-task-plan issue-52-terraform-rds
@@ -865,18 +869,32 @@ All commands use slash-command syntax (no arguments like `--flag`):
 ### Example Flow (With ADR)
 
 ```
-/wf-01-issue-plan
-# Creates issue-63-api-versioning
+# Start from an existing issue
 
 /wf-adr api-versioning-pattern
 # Agent researches options, human selects approach
 # Creates docs/architecture/adrs/022-api-versioning-pattern.md
 
-/wf-define-gates issue-63-api-versioning
+/wf-01-define-gates issue-63-api-versioning
 # Creates gates.md informed by ADR decision
 
 /wf-02-task-plan issue-63-api-versioning
 # Creates tasks based on chosen approach
+
+...
+```
+
+### Example Flow (New Issue from Scratch)
+
+```
+/wf-issue-plan
+# Creates issue-47-user-email-validation (on-demand)
+
+/wf-01-define-gates issue-47-user-email-validation
+# Creates gates.md
+
+/wf-02-task-plan issue-47-user-email-validation
+# Creates tasks
 
 ...
 ```
@@ -889,7 +907,7 @@ All commands use slash-command syntax (no arguments like `--flag`):
 |--------------|--------------|---------|
 | Long sessions across multiple tasks | Context pollution, forgotten instructions | Fresh session per task |
 | Massive AGENTS.md (500+ lines) | Gets ignored as context fills | Under 200 lines, non-negotiables only |
-| **Skipping gate definition** | Vague completion criteria, rubber-stamp risk | Always run `/wf-define-gates` |
+| **Skipping gate definition** | Vague completion criteria, rubber-stamp risk | Always run `/wf-01-define-gates` |
 | **Writing tests when commands work better** | Maintenance burden for no value | Choose verification type based on domain |
 | **Multiple commits per task** | Unreviewable diffs, tangled changes | Each task = one commit |
 | **Comprehensive upfront design** | Goes stale, creates review burden | Design on-demand when gaps emerge |

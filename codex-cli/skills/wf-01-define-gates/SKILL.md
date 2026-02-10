@@ -1,5 +1,5 @@
 ---
-description: Gate Definition - Define verification gates for an issue (MANDATORY before task planning)
+description: "01: Define verification gates for an issue (MANDATORY — start here)"
 ---
 
 ## PRECONDITIONS (MANDATORY)
@@ -11,6 +11,11 @@ Before doing anything else:
    - GitHub issue (if MCP available)
    - Markdown file in `.agents/issues/<issue-identifier>.md`
 2. If issue doesn't exist: STOP and report error
+
+**Issue Quality Check:**
+1. Verify issue has success criteria in checkbox format (`- [ ] criterion`)
+2. If issue lacks checkboxes or criteria are vague/sparse: STOP and suggest running `/wf-issue-plan` to refine the issue first
+3. If criteria are clear and specific: Proceed
 
 **Gate File Check:**
 1. Check if `.agents/tasks/<issue-identifier>/gates.md` exists
@@ -470,8 +475,8 @@ If proceeding with current scope:
 - If approved: `/wf-02-task-plan <issue-identifier>`
 
 If splitting recommended and accepted:
-- Return to `/wf-01-issue-plan` to create sub-issues
-- Then run `/wf-define-gates` for each sub-issue
+- Return to `/wf-issue-plan` to create sub-issues
+- Then run `/wf-01-define-gates` for each sub-issue
 
 ---
 

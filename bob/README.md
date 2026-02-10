@@ -23,11 +23,11 @@ cp -r commands .bob/commands/
 - `/wf-investigate` - Understand code or enrich sparse issues
 - `/wf-design` - Define interfaces (signatures only, no implementation)
 - `/wf-adr` - Create Architecture Decision Records for significant decisions
+- `/wf-issue-plan` - Define an issue with success criteria
 
 ### Core Workflow
 
-- `/wf-01-issue-plan` - Define an issue with success criteria
-- `/wf-define-gates` - Define verification gates (mandatory before task planning)
+- `/wf-01-define-gates` - Define verification gates (mandatory before task planning)
 - `/wf-02-task-plan` - Plan tasks based on gates and complexity
 - `/wf-03-implement` - Execute single task with verification
 - `/wf-04-cleanup` - Three-phase audit before PR

@@ -44,7 +44,7 @@ This is different from:
 
 "Can I write acceptance tests for this issue right now?"
 
-- **Yes** --> Skip to wf-01-issue-plan or wf-02-task-plan
+- **Yes** --> Skip to wf-issue-plan or wf-02-task-plan
 - **No, interface is unclear** --> Design
 - **No, do not understand the issue or codebase** --> Investigate
 
@@ -160,7 +160,7 @@ You have completed Phase 1. STOP HERE. Wait for the user to approve success crit
 After user approves the success criteria, present recommendation:
 
 > "Based on this investigation, the recommended next step is:
-> - **Ready for `/wf-01-issue-plan`** - success criteria are clear, scope is understood
+> - **Ready for `/wf-issue-plan`** - success criteria are clear, scope is understood
 > - **Needs `/wf-design`** - interface decisions required before planning
 > - **Needs decomposition** - too large for single issue, should be split
 > - **Needs `/wf-adr`** - architectural decision required
@@ -217,7 +217,7 @@ Update the GitHub issue or create `.agents/investigations/[date]-[slug].md`:
 - [ ] [Specific, testable criterion based on findings]
 
 ### Recommended Next Step
-[Ready for wf-01-issue-plan / Needs wf-design first / Needs decomposition]
+[Ready for wf-issue-plan / Needs wf-design first / Needs decomposition]
 ```
 
 Then report:
