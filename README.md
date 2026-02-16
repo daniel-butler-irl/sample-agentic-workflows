@@ -6,7 +6,18 @@ A structured methodology for working with AI coding agents in enterprise environ
 
 This repository provides workflow implementations for AI-assisted development. The methodology addresses common failure modes when working with AI agents and provides a systematic approach to planning, implementing, and reviewing AI-generated code.
 
-For detailed background on the failure modes and design principles behind these workflows, see: [Designing Agentic Workflows: Where Agents Fail, and Where We Fail](https://dev.to/danielbutlerirl/designing-agentic-workflows-where-agents-fail-and-where-we-fail-4a95)
+For background on the failure modes and design principles behind these workflows, see:
+
+- Designing Agentic Workflows: Where Agents Fail, and Where We Fail  
+  https://dev.to/danielbutlerirl/designing-agentic-workflows-where-agents-fail-and-where-we-fail-4a95
+
+- Designing Agentic Workflows: A Practical Example  
+  https://dev.to/danielbutlerirl/designing-agentic-workflows-a-practical-example-291j
+
+For a detailed walkthrough of how the core loop in this repository is structured and why it is sequenced this way, see:
+
+- Designing Agentic Workflows: The Core Loop  
+  https://dev.to/danielbutlerirl/designing-agentic-workflows-the-core-loop-166d
 
 ## Purpose
 
